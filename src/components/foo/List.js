@@ -7,11 +7,12 @@ class List extends Component {
   static propTypes = {
     error: React.PropTypes.bool.isRequired,
     loading: React.PropTypes.bool.isRequired,
-    items: React.PropTypes.array.isRequired
+    items: React.PropTypes.array.isRequired,
+    list: React.PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this.props.listFetch();
+    this.props.list();
   }
 
   render() {
@@ -24,12 +25,15 @@ class List extends Component {
     }
 
     return <div>
+      <h1>Foos</h1>
+
       <div className="table-responsive">
           <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th>Id</th>
               <th>Bar</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +41,7 @@ class List extends Component {
             <tr className={item['@id']} key={item['@id']}>
               <td>{item['@id']}</td>
               <td>{item['bar']}</td>
+              <td><Link to={encodeURIComponent(item['@id'])}><span className="glyphicon glyphicon-pencil"/></Link></td>
             </tr>
           )}
           </tbody>
@@ -58,7 +63,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    listFetch: () => dispatch(list())
+    list: () => dispatch(list())
   };
 };
 
