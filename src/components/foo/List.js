@@ -16,16 +16,12 @@ class List extends Component {
   }
 
   render() {
-    if (this.props.error) {
-      return <div>An error occurred.</div>;
-    }
-
-    if (this.props.loading) {
-      return <div>Loading...</div>;
-    }
-
     return <div>
       <h1>Foos</h1>
+
+      {this.props.loading && <div className="alert alert-info">Loading...</div>}
+      {this.props.location.state && this.props.location.state.deleted && <div className="alert alert-success">{this.props.location.state.deleted['@id']} deleted.</div>}
+      {this.props.error && <div className="alert alert-danger">An error occurred.</div>}
 
       <div className="table-responsive">
           <table className="table table-striped table-hover">
@@ -41,7 +37,7 @@ class List extends Component {
             <tr className={item['@id']} key={item['@id']}>
               <td>{item['@id']}</td>
               <td>{item['bar']}</td>
-              <td><Link to={encodeURIComponent(item['@id'])}><span className="glyphicon glyphicon-pencil"/></Link></td>
+              <td><Link to={`edit/${encodeURIComponent(item['@id'])}`}><span className="glyphicon glyphicon-pencil"/></Link></td>
             </tr>
           )}
           </tbody>

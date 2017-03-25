@@ -48,7 +48,7 @@ export function update(item, values) {
 
     fetch(`http://localhost${item['@id']}`, {
         method: 'PUT',
-        headers: new Headers({'Accept': 'application/ld+json', 'Content-Type': 'application/ld+json'}),
+        headers: new Headers({Accept: 'application/ld+json', 'Content-Type': 'application/ld+json'}),
         body: JSON.stringify(values),
       }
     )

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import Form from './Form';
 import { create } from '../../actions/foo/create';
 
@@ -12,17 +13,21 @@ class Create extends Component {
   };
 
   render() {
-    if (this.props.loading) {
-      return <div>Loading...</div>;
+    if (this.props.item) {
+      return <Redirect to={{
+          pathname: `edit/${encodeURIComponent(this.props.item['@id'])}`,
+          state: {created: this.props.item},
+        }}/>;
     }
 
     return <div>
       <h1>Create a new Foo</h1>
 
-      {this.props.item && <div className="alert alert-success">Item {this.props.item['@id']} created!</div>}
+      {this.props.loading && <div className="alert alert-info">Loading...</div>}
       {this.props.error && <div className="alert alert-danger">An error occurred.</div>}
 
       <Form onSubmit={this.props.create} values={this.props.item}/>
+      <Link to="." className="btn btn-default">Back to list</Link>
     </div>;
   }
 }

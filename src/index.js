@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { reducer as form } from 'redux-form';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import foo from './reducers/foo/index';
+import foo from './reducers/foo/';
 import FooList from './components/foo/List';
 import FooCreate from './components/foo/Create';
 import FooUpdate from './components/foo/Update';
@@ -22,7 +22,7 @@ ReactDom.render(
       <div>
         <Route exact={true} path='/foos' component={FooList}/>
         <Route exact={true} path='/foos/create' component={FooCreate}/>
-        <Route exact={true} path='/foos/:id' component={FooUpdate}/>
+        <Route exact={true} path='/foos/edit/:id' component={FooUpdate}/>
       </div>
     </Router>
   </Provider>,

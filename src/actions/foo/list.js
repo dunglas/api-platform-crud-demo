@@ -14,7 +14,7 @@ export function list() {
   return (dispatch) => {
     dispatch(loading(true));
 
-    fetch('http://localhost/foos', {headers: new Headers({'Accept': 'application/ld+json'})})
+    fetch('http://localhost/foos', {headers: new Headers({Accept: 'application/ld+json'})})
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
