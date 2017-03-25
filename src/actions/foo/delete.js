@@ -1,3 +1,5 @@
+import { BASE_URL } from '../../config.js'
+
 export function error(error) {
   return {type: 'FOO_DELETE_ERROR', error};
 }
@@ -14,17 +16,17 @@ export function del(item) {
   return (dispatch) => {
     dispatch(loading(true));
 
-    fetch(`http://localhost${item['@id']}`, {method: 'DELETE', headers: new Headers({Accept: 'application/ld+json'})})
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
+    fetch(`${BASE_URL}/${item['@id']}`, {method: 'DELETE', headers: new Headers({Accept: 'application/ld+json'})})
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
 
-        dispatch(loading(false));
+      dispatch(loading(false));
 
-        return response;
-      })
-      .then(() => dispatch(success(item)))
-      .catch(() => dispatch(error(true)));
+      return response;
+    })
+    .then(() => dispatch(success(item)))
+    .catch(() => dispatch(error(true)));
   };
 }

@@ -1,3 +1,5 @@
+import { BASE_URL } from '../../config.js'
+
 export function error(error) {
   return {type: 'FOO_LIST_ERROR', error};
 }
@@ -14,18 +16,18 @@ export function list() {
   return (dispatch) => {
     dispatch(loading(true));
 
-    fetch('http://localhost/foos', {headers: new Headers({Accept: 'application/ld+json'})})
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
+    fetch(`${BASE_URL}/foos`, {headers: new Headers({Accept: 'application/ld+json'})})
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
 
-        dispatch(loading(false));
+      dispatch(loading(false));
 
-        return response;
-      })
-      .then(response => response.json())
-      .then(data => dispatch(success(data['hydra:member'])))
-      .catch(() => dispatch(error(true)));
+      return response;
+    })
+    .then(response => response.json())
+    .then(data => dispatch(success(data['hydra:member'])))
+    .catch(() => dispatch(error(true)));
   };
 }
