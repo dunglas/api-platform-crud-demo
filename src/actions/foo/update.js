@@ -6,8 +6,8 @@ export function retrieveLoading(retrieveLoading) {
   return {type: 'FOO_UPDATE_RETRIEVE_LOADING', retrieveLoading};
 }
 
-export function retrieveSuccess(item) {
-  return {type: 'FOO_UPDATE_RETRIEVE_SUCCESS', item};
+export function retrieveSuccess(retrieved) {
+  return {type: 'FOO_UPDATE_RETRIEVE_SUCCESS', retrieved};
 }
 
 export function retrieve(id) {
@@ -26,7 +26,7 @@ export function retrieve(id) {
       })
       .then(response => response.json())
       .then(data => dispatch(retrieveSuccess(data)))
-      .catch(() => dispatch(retrieveError(true)));
+      //.catch(() => dispatch(retrieveError(true)));
   };
 }
 
@@ -38,8 +38,8 @@ export function updateLoading(updateLoading) {
   return {type: 'FOO_UPDATE_UPDATE_LOADING', updateLoading};
 }
 
-export function updateSuccess(item) {
-  return {type: 'FOO_UPDATE_UPDATE_SUCCESS', item};
+export function updateSuccess(updated) {
+  return {type: 'FOO_UPDATE_UPDATE_SUCCESS', updated};
 }
 
 export function update(item, values) {

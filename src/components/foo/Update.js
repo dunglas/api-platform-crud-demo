@@ -14,7 +14,8 @@ class Update extends Component {
     updateLoading: React.PropTypes.bool.isRequired,
     deleteError: React.PropTypes.bool.isRequired,
     deleteLoading: React.PropTypes.bool.isRequired,
-    item: React.PropTypes.object,
+    retrieved: React.PropTypes.object,
+    updated: React.PropTypes.object,
     deleted: React.PropTypes.object,
     retrieve: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
@@ -41,14 +42,17 @@ class Update extends Component {
       return <Redirect to=".."/>;
     }
 
+    const item = this.props.updated ? this.props.updated : this.props.retrieved;
+
     return <div>
-      <h1>Edit {this.props.item && this.props.item['@id']} </h1>
+      <h1>Edit {item && item['@id']}</h1>
 
       {this.props.created && <div className="alert alert-success">{this.props.created['@id']} created.</div>}
+      {this.props.updated && <div className="alert alert-success">{this.props.updated['@id']} updated.</div>}
       {(this.props.retrieveLoading || this.props.updateLoading || this.props.deleteLoading) && <div className="alert alert-info">Loading...</div>}
       {(this.props.retrieveError || this.props.updateError || this.props.deleteError) && <div className="alert alert-danger">An error occurred.</div>}
 
-      {this.props.item && <Form onSubmit={values => this.props.update(this.props.item, values)} initialValues={this.props.item}/>}
+      {item && <Form onSubmit={values => this.props.update(item, values)} initialValues={item}/>}
       <Link to=".." className="btn btn-default">Back to list</Link>
       <button onClick={this.del} className="btn btn-danger">Delete</button>
     </div>;
@@ -65,7 +69,8 @@ const mapStateToProps = (state) => {
     deleteLoading: state.foo.del.loading,
     created: state.foo.create.created,
     deleted: state.foo.del.deleted,
-    item: state.foo.update.item,
+    retrieved: state.foo.update.retrieved,
+    updated: state.foo.update.updated,
   };
 };
 

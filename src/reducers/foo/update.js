@@ -26,6 +26,19 @@ export function retrieveLoading(state = false, action) {
   }
 }
 
+export function retrieved(state = null, action) {
+  switch (action.type) {
+    case 'FOO_UPDATE_RETRIEVE_SUCCESS':
+      return action.retrieved;
+
+    case 'FOO_UPDATE_RESET':
+      return null;
+
+    default:
+      return state;
+  }
+}
+
 export function updateError(state = false, action) {
   switch (action.type) {
     case 'FOO_UPDATE_UPDATE_ERROR':
@@ -52,11 +65,10 @@ export function updateLoading(state = false, action) {
   }
 }
 
-export function item(state = {}, action) {
+export function updated(state = null, action) {
   switch (action.type) {
-    case 'FOO_UPDATE_RETRIEVE_SUCCESS':
     case 'FOO_UPDATE_UPDATE_SUCCESS':
-      return action.item;
+      return action.updated;
 
     case 'FOO_UPDATE_RESET':
       return null;
@@ -66,4 +78,4 @@ export function item(state = {}, action) {
   }
 }
 
-export default combineReducers({retrieveError, retrieveLoading, updateError, updateLoading, item});
+export default combineReducers({retrieveError, retrieveLoading, retrieved, updateError, updateLoading, updated});
