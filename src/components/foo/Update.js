@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Form from './Form';
-import { retrieve, update } from '../../actions/foo/update';
-import { del } from '../../actions/foo/delete';
+import { success } from '../../actions/foo/create';
+import { retrieve, update, reset } from '../../actions/foo/update';
+import { del, loading, error } from '../../actions/foo/delete';
 
 class Update extends Component {
   static propTypes = {
@@ -13,15 +14,20 @@ class Update extends Component {
     updateLoading: React.PropTypes.bool.isRequired,
     deleteError: React.PropTypes.bool.isRequired,
     deleteLoading: React.PropTypes.bool.isRequired,
+    item: React.PropTypes.object,
     deleted: React.PropTypes.object,
-    item: React.PropTypes.object.isRequired,
     retrieve: React.PropTypes.func.isRequired,
     update: React.PropTypes.func.isRequired,
     del: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     this.props.retrieve(decodeURIComponent(this.props.match.params.id));
+  }
+
+  componentWillUnmount() {
+    this.props.reset();
   }
 
   del = () => {
@@ -32,17 +38,17 @@ class Update extends Component {
 
   render() {
     if (this.props.deleted) {
-      return <Redirect to={{pathname: '..', state: {deleted: this.props.deleted}}}/>;
+      return <Redirect to=".."/>;
     }
 
     return <div>
-      <h1>Edit {this.props.item['@id']} </h1>
+      <h1>Edit {this.props.item && this.props.item['@id']} </h1>
 
-      {this.props.location.state && this.props.location.state.created && <div className="alert alert-success">{this.props.location.state.created['@id']} created.</div>}
+      {this.props.created && <div className="alert alert-success">{this.props.created['@id']} created.</div>}
       {(this.props.retrieveLoading || this.props.updateLoading || this.props.deleteLoading) && <div className="alert alert-info">Loading...</div>}
       {(this.props.retrieveError || this.props.updateError || this.props.deleteError) && <div className="alert alert-danger">An error occurred.</div>}
 
-      <Form onSubmit={values => this.props.update(this.props.item, values)} initialValues={this.props.item}/>
+      {this.props.item && <Form onSubmit={values => this.props.update(this.props.item, values)} initialValues={this.props.item}/>}
       <Link to=".." className="btn btn-default">Back to list</Link>
       <button onClick={this.del} className="btn btn-danger">Delete</button>
     </div>;
@@ -57,6 +63,7 @@ const mapStateToProps = (state) => {
     updateLoading: state.foo.update.updateLoading,
     deleteError: state.foo.del.error,
     deleteLoading: state.foo.del.loading,
+    created: state.foo.create.created,
     deleted: state.foo.del.deleted,
     item: state.foo.update.item,
   };
@@ -67,6 +74,12 @@ const mapDispatchToProps = (dispatch) => {
     retrieve: id => dispatch(retrieve(id)),
     update: (item, values) => dispatch(update(item, values)),
     del: item => dispatch(del(item)),
+    reset: () => {
+      dispatch(reset());
+      dispatch(error(false));
+      dispatch(loading(false));
+      dispatch(success(null));
+    },
   };
 };
 

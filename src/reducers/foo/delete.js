@@ -1,27 +1,33 @@
 import { combineReducers } from 'redux'
 
 export function error(state = false, action) {
-  if ('FOO_DELETE_ERROR' === action.type) {
-    return action.error;
-  }
+  switch (action.type) {
+    case 'FOO_DELETE_ERROR':
+      return action.error;
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 export function loading(state = false, action) {
-  if ('FOO_DELETE_LOADING' === action.type) {
-    return action.loading;
-  }
+  switch (action.type) {
+    case 'FOO_DELETE_LOADING':
+      return action.loading;
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 export function deleted(state = null, action) {
-  if ('FOO_DELETE_SUCCESS' === action.type) {
-    return action.deleted;
-  }
+  switch (action.type) {
+    case 'FOO_DELETE_SUCCESS':
+      return action.deleted;
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 export default combineReducers({error, loading, deleted});

@@ -2,22 +2,24 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Form from './Form';
-import { create } from '../../actions/foo/create';
+import { create, loading, error } from '../../actions/foo/create';
 
 class Create extends Component {
   static propTypes = {
     error: React.PropTypes.bool.isRequired,
     loading: React.PropTypes.bool.isRequired,
-    item: React.PropTypes.object,
+    created: React.PropTypes.object,
     create: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired,
   };
 
+  componentWillUnmount() {
+    this.props.reset();
+  }
+
   render() {
-    if (this.props.item) {
-      return <Redirect to={{
-          pathname: `edit/${encodeURIComponent(this.props.item['@id'])}`,
-          state: {created: this.props.item},
-        }}/>;
+    if (this.props.created) {
+      return <Redirect to={`edit/${encodeURIComponent(this.props.created['@id'])}`}/>;
     }
 
     return <div>
@@ -34,7 +36,7 @@ class Create extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    item: state.foo.create.item,
+    created: state.foo.create.created,
     error: state.foo.create.error,
     loading: state.foo.create.loading,
   };
@@ -42,7 +44,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    create: values => dispatch(create(values))
+    create: values => dispatch(create(values)),
+    reset: () => {
+      dispatch(loading(false));
+      dispatch(error(false));
+    },
   };
 };
 

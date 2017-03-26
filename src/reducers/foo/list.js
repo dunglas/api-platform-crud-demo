@@ -1,27 +1,42 @@
 import { combineReducers } from 'redux'
 
 export function error(state = false, action) {
-  if ('FOO_LIST_ERROR' === action.type) {
-    return action.error;
-  }
+  switch (action.type) {
+    case 'FOO_LIST_ERROR':
+      return action.error;
 
-  return state;
+    case 'FOO_LIST_RESET':
+      return false;
+
+    default:
+      return state;
+  }
 }
 
 export function loading(state = false, action) {
-  if ('FOO_LIST_LOADING' === action.type) {
-    return action.loading;
-  }
+  switch (action.type) {
+    case 'FOO_LIST_LOADING':
+      return action.loading;
 
-  return state;
+    case 'FOO_LIST_RESET':
+      return false;
+
+    default:
+      return state;
+  }
 }
 
 export function items(state = [], action) {
-  if ('FOO_LIST_SUCCESS' === action.type) {
-    return action.items;
-  }
+  switch (action.type) {
+    case 'FOO_LIST_SUCCESS':
+      return action.items;
 
-  return state;
+    case 'FOO_LIST_RESET':
+      return [];
+
+    default:
+      return state;
+  }
 }
 
 export default combineReducers({error, loading, items});

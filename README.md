@@ -7,9 +7,9 @@ Create a React application:
     $ create-react-app my-app
     $ cd my-app
 
-Install React Router, Redux, React Redux, Redux Form and Redux Thunk (to handle AJAX requests):
+Install React Router, Redux, React Redux, React Router Redux, Redux Form and Redux Thunk (to handle AJAX requests):
 
-    $ yarn add redux react-redux redux-thunk redux-form react-router-dom
+    $ yarn add redux react-redux redux-thunk redux-form react-router-dom react-router-redux
 
 Add the Bootstrap CSS in `public/index.html`:
 

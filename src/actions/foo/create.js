@@ -6,8 +6,8 @@ export function loading(loading) {
   return {type: 'FOO_CREATE_LOADING', loading};
 }
 
-export function success(item) {
-  return {type: 'FOO_CREATE_SUCCESS', item};
+export function success(created) {
+  return {type: 'FOO_CREATE_SUCCESS', created};
 }
 
 export function create(values) {
@@ -16,16 +16,16 @@ export function create(values) {
 
     fetch('http://localhost/foos', {
         method: 'POST',
-        headers: new Headers({'Accept': 'application/ld+json', 'Content-Type': 'application/ld+json'}),
+        headers: new Headers({Accept: 'application/ld+json', 'Content-Type': 'application/ld+json'}),
         body: JSON.stringify(values),
       }
     )
       .then(response => {
+        dispatch(loading(false));
+
         if (!response.ok) {
           throw Error(response.statusText);
         }
-
-        dispatch(loading(false));
 
         return response;
       })

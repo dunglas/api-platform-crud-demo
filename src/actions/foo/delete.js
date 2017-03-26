@@ -16,11 +16,11 @@ export function del(item) {
 
     fetch(`http://localhost${item['@id']}`, {method: 'DELETE', headers: new Headers({Accept: 'application/ld+json'})})
       .then(response => {
+        dispatch(loading(false));
+
         if (!response.ok) {
           throw Error(response.statusText);
         }
-
-        dispatch(loading(false));
 
         return response;
       })

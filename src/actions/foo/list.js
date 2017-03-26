@@ -16,11 +16,11 @@ export function list() {
 
     fetch('http://localhost/foos', {headers: new Headers({Accept: 'application/ld+json'})})
       .then(response => {
+        dispatch(loading(false));
+
         if (!response.ok) {
           throw Error(response.statusText);
         }
-
-        dispatch(loading(false));
 
         return response;
       })
@@ -28,4 +28,8 @@ export function list() {
       .then(data => dispatch(success(data['hydra:member'])))
       .catch(() => dispatch(error(true)));
   };
+}
+
+export function reset() {
+  return {type: 'FOO_LIST_RESET'};
 }

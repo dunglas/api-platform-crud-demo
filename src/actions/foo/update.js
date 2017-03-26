@@ -16,11 +16,11 @@ export function retrieve(id) {
 
     fetch(`http://localhost${id}`, {headers: new Headers({'Accept': 'application/ld+json'})})
       .then(response => {
+        dispatch(retrieveLoading(false));
+
         if (!response.ok) {
           throw Error(response.statusText);
         }
-
-        dispatch(retrieveLoading(false));
 
         return response;
       })
@@ -53,11 +53,11 @@ export function update(item, values) {
       }
     )
       .then(response => {
+        dispatch(updateLoading(false));
+
         if (!response.ok) {
           throw Error(response.statusText);
         }
-
-        dispatch(updateLoading(false));
 
         return response;
       })
@@ -65,4 +65,8 @@ export function update(item, values) {
       .then(data => dispatch(updateSuccess(data)))
       .catch(() => dispatch(updateError(true)));
   };
+}
+
+export function reset() {
+  return {type: 'FOO_UPDATE_RESET'};
 }

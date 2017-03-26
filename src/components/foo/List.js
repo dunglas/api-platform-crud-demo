@@ -1,18 +1,25 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { list } from '../../actions/foo/list';
+import { list, reset } from '../../actions/foo/list';
+import { success } from '../../actions/foo/delete';
 
 class List extends Component {
   static propTypes = {
     error: React.PropTypes.bool.isRequired,
     loading: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array.isRequired,
+    deletedItem: React.PropTypes.object,
     list: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     this.props.list();
+  }
+
+  componentWillUnmount() {
+    this.props.reset();
   }
 
   render() {
@@ -20,7 +27,7 @@ class List extends Component {
       <h1>Foos</h1>
 
       {this.props.loading && <div className="alert alert-info">Loading...</div>}
-      {this.props.location.state && this.props.location.state.deleted && <div className="alert alert-success">{this.props.location.state.deleted['@id']} deleted.</div>}
+      {this.props.deletedItem && <div className="alert alert-success">{this.props.deletedItem['@id']} deleted.</div>}
       {this.props.error && <div className="alert alert-danger">An error occurred.</div>}
 
       <div className="table-responsive">
@@ -54,12 +61,17 @@ const mapStateToProps = (state) => {
     items: state.foo.list.items,
     error: state.foo.list.error,
     loading: state.foo.list.loading,
+    deletedItem: state.foo.del.deleted,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    list: () => dispatch(list())
+    list: () => dispatch(list()),
+    reset: () => {
+      dispatch(reset());
+      dispatch(success(null));
+    },
   };
 };
 

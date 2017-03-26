@@ -1,27 +1,33 @@
 import { combineReducers } from 'redux'
 
 export function error(state = false, action) {
-  if ('FOO_CREATE_ERROR' === action.type) {
-    return action.error;
-  }
+  switch (action.type) {
+    case 'FOO_CREATE_ERROR':
+      return action.error;
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 export function loading(state = false, action) {
-  if ('FOO_CREATE_LOADING' === action.type) {
-    return action.loading;
-  }
+  switch (action.type) {
+    case 'FOO_CREATE_LOADING':
+      return action.loading;
 
-  return state;
+    default:
+      return state;
+  }
 }
 
-export function item(state = null, action) {
-  if ('FOO_CREATE_SUCCESS' === action.type) {
-    return action.item;
-  }
+export function created(state = null, action) {
+  switch (action.type) {
+    case 'FOO_CREATE_SUCCESS':
+      return action.created;
 
-  return state;
+    default:
+      return state;
+  }
 }
 
-export default combineReducers({error, loading, item});
+export default combineReducers({error, loading, created});
