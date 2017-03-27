@@ -6,7 +6,7 @@ import { success } from '../../actions/foo/delete';
 
 class List extends Component {
   static propTypes = {
-    error: React.PropTypes.bool.isRequired,
+    error: React.PropTypes.string,
     loading: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array.isRequired,
     deletedItem: React.PropTypes.object,
@@ -28,7 +28,7 @@ class List extends Component {
 
       {this.props.loading && <div className="alert alert-info">Loading...</div>}
       {this.props.deletedItem && <div className="alert alert-success">{this.props.deletedItem['@id']} deleted.</div>}
-      {this.props.error && <div className="alert alert-danger">An error occurred.</div>}
+      {this.props.error && <div className="alert alert-danger">{this.props.error}</div>}
 
       <div className="table-responsive">
           <table className="table table-striped table-hover">

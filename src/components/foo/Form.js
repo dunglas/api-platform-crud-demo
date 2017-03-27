@@ -8,7 +8,7 @@ class Form extends Component {
     return <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="bar">Bar</label>
-          <Field name="bar" component="input" type="text" className="form-control" placeholder="bar" required={true}/>
+          <Field name="bar" component="input" type="text" className="form-control" placeholder="bar" /*required={true}*//>
           <span className="help-block">The description...</span>
         </div>
 

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-export function error(state = false, action) {
+export function error(state = null, action) {
   switch (action.type) {
     case 'FOO_DELETE_ERROR':
       return action.error;

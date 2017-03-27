@@ -8,11 +8,11 @@ import { del, loading, error } from '../../actions/foo/delete';
 
 class Update extends Component {
   static propTypes = {
-    retrieveError: React.PropTypes.bool.isRequired,
+    retrieveError: React.PropTypes.string,
     retrieveLoading: React.PropTypes.bool.isRequired,
-    updateError: React.PropTypes.bool.isRequired,
+    updateError: React.PropTypes.string,
     updateLoading: React.PropTypes.bool.isRequired,
-    deleteError: React.PropTypes.bool.isRequired,
+    deleteError: React.PropTypes.string,
     deleteLoading: React.PropTypes.bool.isRequired,
     retrieved: React.PropTypes.object,
     updated: React.PropTypes.object,
@@ -33,7 +33,7 @@ class Update extends Component {
 
   del = () => {
     if (confirm('Are you sure you want to delete this item?')) {
-      this.props.del(this.props.item);
+      this.props.del(this.props.retrieved);
     }
   };
 
@@ -50,7 +50,9 @@ class Update extends Component {
       {this.props.created && <div className="alert alert-success">{this.props.created['@id']} created.</div>}
       {this.props.updated && <div className="alert alert-success">{this.props.updated['@id']} updated.</div>}
       {(this.props.retrieveLoading || this.props.updateLoading || this.props.deleteLoading) && <div className="alert alert-info">Loading...</div>}
-      {(this.props.retrieveError || this.props.updateError || this.props.deleteError) && <div className="alert alert-danger">An error occurred.</div>}
+      {this.props.retrieveError && <div className="alert alert-danger">{this.props.retrieveError}</div>}
+      {this.props.updateError && <div className="alert alert-danger">{this.props.updateError}</div>}
+      {this.props.deleteError && <div className="alert alert-danger">{this.props.deleteError}</div>}
 
       {item && <Form onSubmit={values => this.props.update(item, values)} initialValues={item}/>}
       <Link to=".." className="btn btn-default">Back to list</Link>
@@ -81,7 +83,7 @@ const mapDispatchToProps = (dispatch) => {
     del: item => dispatch(del(item)),
     reset: () => {
       dispatch(reset());
-      dispatch(error(false));
+      dispatch(error(null));
       dispatch(loading(false));
       dispatch(success(null));
     },

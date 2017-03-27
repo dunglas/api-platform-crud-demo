@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 
-export function retrieveError(state = false, action) {
+export function retrieveError(state = null, action) {
   switch (action.type) {
     case 'FOO_UPDATE_RETRIEVE_ERROR':
       return action.retrieveError;
 
     case 'FOO_UPDATE_RESET':
-      return false;
+      return null;
 
     default:
       return state;
@@ -39,13 +39,13 @@ export function retrieved(state = null, action) {
   }
 }
 
-export function updateError(state = false, action) {
+export function updateError(state = null, action) {
   switch (action.type) {
     case 'FOO_UPDATE_UPDATE_ERROR':
       return action.updateError;
 
     case 'FOO_UPDATE_RESET':
-      return false;
+      return null;
 
     default:
       return state;

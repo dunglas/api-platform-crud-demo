@@ -6,7 +6,7 @@ import { create, loading, error } from '../../actions/foo/create';
 
 class Create extends Component {
   static propTypes = {
-    error: React.PropTypes.bool.isRequired,
+    error: React.PropTypes.string,
     loading: React.PropTypes.bool.isRequired,
     created: React.PropTypes.object,
     create: React.PropTypes.func.isRequired,
@@ -26,7 +26,7 @@ class Create extends Component {
       <h1>Create a new Foo</h1>
 
       {this.props.loading && <div className="alert alert-info">Loading...</div>}
-      {this.props.error && <div className="alert alert-danger">An error occurred.</div>}
+      {this.props.error && <div className="alert alert-danger">{this.props.error}</div>}
 
       <Form onSubmit={this.props.create} values={this.props.item}/>
       <Link to="." className="btn btn-default">Back to list</Link>
@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch) => {
     create: values => dispatch(create(values)),
     reset: () => {
       dispatch(loading(false));
-      dispatch(error(false));
+      dispatch(error(null));
     },
   };
 };

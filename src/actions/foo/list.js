@@ -1,3 +1,5 @@
+import fooFetch from '../../api/fooFetch';
+
 export function error(error) {
   return {type: 'FOO_LIST_ERROR', error};
 }
@@ -14,19 +16,16 @@ export function list() {
   return (dispatch) => {
     dispatch(loading(true));
 
-    fetch('http://localhost/foos', {headers: new Headers({Accept: 'application/ld+json'})})
-      .then(response => {
-        dispatch(loading(false));
-
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        return response;
-      })
+    fooFetch('/foos')
       .then(response => response.json())
-      .then(data => dispatch(success(data['hydra:member'])))
-      .catch(() => dispatch(error(true)));
+      .then(data => {
+        dispatch(loading(false));
+        dispatch(success(data['hydra:member']));
+      })
+      .catch(e => {
+        dispatch(loading(false));
+        dispatch(error(e.message))
+      });
   };
 }
 

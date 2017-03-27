@@ -1,3 +1,5 @@
+import fooFetch from '../../api/fooFetch';
+
 export function error(error) {
   return {type: 'FOO_DELETE_ERROR', error};
 }
@@ -14,17 +16,14 @@ export function del(item) {
   return (dispatch) => {
     dispatch(loading(true));
 
-    fetch(`http://localhost${item['@id']}`, {method: 'DELETE', headers: new Headers({Accept: 'application/ld+json'})})
-      .then(response => {
+    fooFetch(item['@id'], {method: 'DELETE'})
+      .then(() => {
         dispatch(loading(false));
-
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        return response;
+        dispatch(success(item))
       })
-      .then(() => dispatch(success(item)))
-      .catch(() => dispatch(error(true)));
+      .catch(e => {
+        dispatch(loading(false));
+        dispatch(error(e.message))
+      });
   };
 }

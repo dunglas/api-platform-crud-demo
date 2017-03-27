@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 
-export function error(state = false, action) {
+export function error(state = null, action) {
   switch (action.type) {
     case 'FOO_LIST_ERROR':
       return action.error;
 
     case 'FOO_LIST_RESET':
-      return false;
+      return null;
 
     default:
       return state;

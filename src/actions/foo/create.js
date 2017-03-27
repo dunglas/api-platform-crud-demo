@@ -1,3 +1,5 @@
+import fooFetch from '../../api/fooFetch';
+
 export function error(error) {
   return {type: 'FOO_CREATE_ERROR', error};
 }
@@ -14,23 +16,17 @@ export function create(values) {
   return (dispatch) => {
     dispatch(loading(true));
 
-    fetch('http://localhost/foos', {
-        method: 'POST',
-        headers: new Headers({Accept: 'application/ld+json', 'Content-Type': 'application/ld+json'}),
-        body: JSON.stringify(values),
-      }
-    )
+    fooFetch('/foos', {method: 'POST', body: JSON.stringify(values)})
       .then(response => {
         dispatch(loading(false));
 
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        return response;
+        return response.json();
       })
-      .then(response => response.json())
       .then(data => dispatch(success(data)))
-      .catch(() => dispatch(error(true)));
+      .catch(e => {
+        dispatch(loading(false));
+
+        dispatch(error(e.message))
+      });
   };
 }
